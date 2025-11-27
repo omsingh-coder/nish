@@ -5,10 +5,10 @@ from twilio.rest import Client
 app = Flask(__name__)
 
 # Twilio credentials from Railway environment variables
-account_sid = os.environ.get("AC4ffbe0800b709f18e98becabae5a9f85")
-auth_token = os.environ.get("a23794664749d9e023627ab56ad09fc8")
-twilio_number = os.environ.get("+14122930656")
-my_phone = os.environ.get("+919006110746")
+account_sid = os.environ.get("TWILIO_SID")
+auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+twilio_number = os.environ.get("TWILIO_NUMBER")
+my_phone = os.environ.get("MY_PHONE")
 
 client = Client(account_sid, auth_token)
 REPLY_FILE = "replies.txt"
