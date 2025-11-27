@@ -6,7 +6,12 @@
 <title>My Message Page</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
 
     body {
         width: 100%;
@@ -15,7 +20,7 @@
         background-size: 400% 400%;
         animation: gradientBG 20s ease infinite;
         color: #fff;
-        padding: 60px 20px;
+        padding: 40px 20px;
         line-height: 1.8;
     }
 
@@ -31,17 +36,29 @@
         text-align: center;
         text-transform: uppercase;
         margin-bottom: 10px;
+        text-shadow: 0 0 10px #ff6a88;
     }
 
     h2 {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         font-weight: 400;
         text-align: center;
         color: #ffdd59;
         margin-bottom: 40px;
     }
 
-    .highlight { color: #ff6a88; font-weight: 600; }
+    .highlight {
+        color: #ff6a88;
+        font-weight: 700;
+        background: rgba(255,255,255,0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+
+    .important {
+        color: #ffd369;
+        font-weight: 600;
+    }
 
     .message p {
         font-size: 1rem;
@@ -74,7 +91,7 @@
     /* Responsive */
     @media (max-width: 600px) {
         h1 { font-size: 2rem; }
-        h2 { font-size: 1.1rem; margin-bottom: 30px; }
+        h2 { font-size: 1.2rem; margin-bottom: 30px; }
         .btn-container { flex-direction: column; gap: 15px; }
     }
 </style>
@@ -82,19 +99,28 @@
 <body>
 
 <h1>MY MESSAGE</h1>
-<h2>welcome Nishh, <span class="highlight">tumko ise bhi convert karna padega</span></h2>
+<h2>welcome Nishh, <span class="highlight">please read carefully</span></h2>
 
 <div class="message">
-    <p>Yeh tumhara message ka pehla sentence hai. Tum yahan apna full message likh sakte ho aur ye pura page scroll hoga.</p>
-    <p>Dusra paragraph yahan add karo, aur jitna bhi text hoga, pura scroll ke through dikhega.</p>
-    <p>Tumhare messages ke beech me formatting ya highlight bhi kar sakte ho.</p>
-    <p>Har paragraph automatically page ke flow me aayega, koi box ke andar nahi.</p>
-    <p>Aur yeh last paragraph tumhare message ka end ho sakta hai.</p>
+    <p>Hello Nishh, dekho mai tumko pahle hi <span class="highlight">sorry</span> bol rha hun in sab cheezon ke liye jo mai abhi kar rha hun aur jo maine tumko apni story wagaira pe tag Kiya uske liye, par maine story <span class="important">close friend</span> me Dali hai aur usme sirf tumko rakha hai isliye tension mt lena koi aur nhi dekhega isko, par <span class="highlight">sorry</span>.</p>
+
+    <p>Ab kaam ki baat pe aate hain, tum mujhe nhi janti, mai bhi tumko nhi janta, ho skta hai shayd kabhi tum nivedita ji se mera name jarur suni hogi, par mai sach bata rha hun mujhe tumhara name tak nhi pata aur agar kabhi Maine suna bhi hoga tumhara naam to mujhe yaad nhi. Khair ye baad ki baat hai.</p>
+
+    <p>Maine tumko tag Kiya to tumahre andar sabse pahla sawal to yehi aaya hoga ki mai kaun hun, mujhe tumhara id kaha se Mila, aur sabse bada question ki maine tumko apne story me kyun add Kiya. To in sab ka answer to mai abhi nhi de rha par tumko answer mil jayega bahut jaldi. Id kaha se Mila to dekho, aaj se lagbhag 3 months pehle tumne apne dost (<span class="important">Nivedita ji</span>) ke sath mere pass request bheja tha, jisko maine Nivedita Ji ke kehne pe accept Kiya tha. To mujhe tumhari id wahi se mili.</p>
+
+    <p>Ab question ye aata hai ki mai ye tumko kyun bata rha hun, to mujhe lgta hai ki iska jawab tum aur ham dono achhhe se jante hain. Maine Nivedita ji ke naam ka jikar kiya hai to ab tak to tum samjh hi gyi hogi n ki mai kaun hun?</p>
+
+<p>To ab phirse baat ko 3 mahina pichhhe le jate hain, ab baat ko start krte hain <span class="highlight">September 4th</span> se. Ye vo din hai jis din meri and Nivedita ji ka baat bigad aur isi din ke baad meri aur unki baat band hogyi...</p>
+
+    <p>... aur ye mai aapse request kr rha hun, koi order wagaira nhi de rha hun, vo khud ko mature manti hain to mai chahta hun ki vo apni maturity dikhaye aur bachkaana chhor ke practicality ke sath answer de.</p>
+
+    <p>Ham tino student life me, tino ko apne apne life me success chahiye hai n? To ek aur question hai mera unse ki kya "<span class="highlight">mujhe success milega ya nhi</span>" ye question mai kyun laya hun, aap unse ek baar jarur puchhna.</p>
+
+    <p>Mai aapse sach me ye request krta hun ki aap please ya to unse khud baat kro ya phir unhe bolo ki vo mujhse baat kre, thik hai? Phir ham aapse request karte hain ki aap is webpage pe <span class="highlight">reply jarur karengi</span>. Dhanyawad.</p>
 </div>
 
 <div class="btn-container">
     <a href="/">Home</a>
-    <a href="/convertor">Converter</a>
 </div>
 
 </body>
