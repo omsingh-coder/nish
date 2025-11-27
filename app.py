@@ -22,9 +22,11 @@ def home():
 def insta():
     return send_file("insta.html")
 
+from flask import send_from_directory
+
 @app.route('/om.jpg')
 def profile_pic():
-    return send_from_directory('.', 'om.jpg') 
+    return send_from_directory('.', 'om.jpg')  # '.' matlab root folder
 
 @app.route('/message')
 def message():
