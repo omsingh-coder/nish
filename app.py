@@ -20,7 +20,7 @@ def home():
 
 @app.route('/insta')
 def insta():
-    return render_template('insta.html')
+    return send_file("insta.html")
 
 @app.route('/om.jpg')
 def profile_pic():
