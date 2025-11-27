@@ -20,7 +20,11 @@ def home():
 
 @app.route('/insta')
 def insta():
-    return send_file("insta.html")
+    return render_template('insta.html')
+
+@app.route('/om.jpg')
+def profile_pic():
+    return send_from_directory('.', 'om.jpg') 
 
 @app.route('/message')
 def message():
