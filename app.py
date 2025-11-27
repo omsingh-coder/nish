@@ -15,7 +15,7 @@ REPLY_FILE = "replies.txt"
 
 # Routes for HTML pages
 @app.route('/')
-def index():
+def home():
     return send_file("index.html")
 
 @app.route('/insta')
@@ -29,6 +29,10 @@ def message():
 @app.route('/reply')
 def reply():
     return send_file("reply.html")
+
+@app.route('/convertor')
+def convertor():
+    return send_file("convertor.html")
 
 # Endpoint for Twilio message
 @app.route('/send', methods=['POST'])
