@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Story Style</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body, html { width: 100%; height: 100%; overflow-x: hidden; }
+
+/* Background Gradient Animation */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background-size: 400% 400%;
+    animation: gradientBG 20s ease infinite;
+    color: #fff;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Canvas Particles */
+canvas#bgCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+}
+
+/* Story Container */
+.story-container {
+    position: relative;
+    z-index: 1;
+    width: 360px;
+    height: 640px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 25px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+/* Header */
+.story-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    position: relative;
+}
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 2px solid #fff;
+}
+.username {
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+/* Copy Icon in Header */
+.copy-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 24px;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    padding: 8px;
+    transition: background 0.3s;
+}
+.copy-icon:hover { background: rgba(255,255,255,0.5); }
+
+/* Message Box - Scrollable */
+.story-message {
+    flex: 1;
+    padding: 15px 20px;
+    overflow-y: auto;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+/* Footer Buttons - Always visible */
+.story-footer {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+}
+.story-footer a {
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #ff6a88, #ff2a40);
+    padding: 10px 25px;
+    border-radius: 15px;
+    font-weight: 600;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+.story-footer a:hover { background: linear-gradient(135deg, #ff2a40, #ff6a88); transform: translateY(-2px); }
+
+</style>
+</head>
+<body>
+
+<!-- Canvas for Particles -->
+<canvas id="bgCanvas"></canvas>
+
+<div class="story-container">
+    <!-- Header -->
+    <div class="story-header">
+        <img src="om.jpg" alt="Profile Pic" class="profile-pic">
+        <div class="username">_.osr._official._</div>
+        <span class="copy-icon" onclick="copyMessage()">📋</span>
+    </div>
+
+    <!-- Story Message -->
+    <div class="story-message" id="storyMessage">
+.... . .-.. .-.. --- / Nishh / ... --- .-. .-. -.-- / ..-. --- .-. / - .- --. --. .. -. --. / -.-- --- ..- / .-.. .. -.- . / - .... .. ... --..-- / -... ..- - / .-. . .-.. .- -..- / - .... .. ... / ... - --- .-. -.-- / .. ... / ...- .. ... .. -... .-.. . / --- -. .-.. -.-- / - --- / -.-- --- ..- / .- -. -.. / -- . .-.-.- / Nishh / .. ..-. / .. .----. -- / -. --- - / -- .. ... - .- -.- . -. --..-- / -.-- --- ..- .----. .-. . / -.-. --- -. -. . -.-. - . -.. / .-- .. - .... / N / Kiran .-.-.- / .... --- .-- .----. ... / ... .... . / -.. --- .. -. --. / - .... . ... . / -.. .- -.-- ... ..--.. / .. .----. -- / ... ..- .-. . / ... .... . / -.. --- . ... -. .----. - / .-. . -- . -- -... . .-. / -- . / .- -. -.-- -- --- .-. . --..-- / .- -. -.. / .... --- -. . ... - .-.. -.-- --..-- / - .... .- - .----. ... / .- .-.. .-. .. --. .... - .-.-.- / Nishh / -.-- --- ..- / -- .. --. .... - / -... . / .-- --- -. -.. . .-. .. -. --. / .-- .... -.-- / .. / - .- --. --. . -.. / -.-- --- ..- / --- ..- - / --- ..-. / -. --- .-- .... . .-. . .-.-.- / .. - .----. ... / ... .. -- .--. .-.. . / .----. / .. / .--- ..- ... - / .-- .- -. - / -.-- --- ..- / - --- / .--. .- ... ... / .- / -- . ... ... .- --. . / - --- / .... . .-. .-.-.- / .-.. . - / .... . .-. / -.- -. --- .-- / - .... .- - / .. -.. .----. -.. / .-.. .. -.- . / - --- / .-. . -.-. --- -. -. . -.-. - / .- -. -.. / .... .- ...- . / .- / -.-. --- -. ... . .-. ... .- - .. --- -. .-.-.- / Nishh / .. .----. -- / .-. . .- .-.. .-.. -.-- / -.-. --- ..- -. - .. -. --. / --- -. / -.-- --- ..- / - --- / --. . - / - .... .. ... / -- . ... ... .- --. . / .- -.-. .-. --- ... ... / - --- / .... . .-. .-.-.-
+    </div>
+
+    <!-- Footer -->
+    <div class="story-footer">
+        <a href="index.html">Home</a>
+        <a href="convertor.html">Convert</a>
+    </div>
+</div>
+
+<script>
+// Copy message function
+function copyMessage() {
+    const message = document.getElementById('storyMessage').innerText.trim();
+    navigator.clipboard.writeText(message).then(() => { alert('Message copied!'); })
+    .catch(err => { alert('Failed to copy message'); });
+}
+
+// Particle background
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initParticles(); });
+
+function initParticles() {
+    particles = [];
+    for(let i=0;i<120;i++){
+        particles.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*2+1, dx:(Math.random()-0.5)*1.2, dy:(Math.random()-0.5)*1.2});
+    }
+}
+
+function drawParticles() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let p of particles){
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle="rgba(255,255,255,0.7)";
+        ctx.fill();
+        p.x+=p.dx; p.y+=p.dy;
+        if(p.x>canvas.width)p.x=0;
+        if(p.x<0)p.x=canvas.width;
+        if(p.y>canvas.height)p.y=0;
+        if(p.y<0)p.y=canvas.height;
+    }
+    requestAnimationFrame(drawParticles);
+}
+
+initParticles();
+drawParticles();
+</script>
+
+</body>
+</html>

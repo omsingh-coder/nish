@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Morse Code Webpage</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+    body, html {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Dark cosmic background with gradient animation */
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        position: relative;
+        color: #fff;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        background-size: 400% 400%;
+        animation: gradientBG 20s ease infinite;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Canvas particles */
+    canvas#bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Welcome Message */
+    .welcome {
+        position: relative;
+        z-index: 1;
+        font-size: 2.4rem;
+        font-weight: 700;
+        margin-top: 80px;
+        text-align: center;
+        background: rgba(255,255,255,0.05);
+        padding: 25px 45px;
+        border-radius: 20px;
+        backdrop-filter: blur(12px);
+        color: #fff;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeInUp 2s forwards;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    @keyframes fadeInUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Instructions Box */
+    .instructions-box {
+        position: relative;
+        z-index: 1;
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(15px);
+        padding: 30px;
+        border-radius: 25px;
+        margin-top: 40px;
+        max-width: 800px;
+        width: 90%;
+        height: 300px;
+        overflow-y: auto;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        color: #fff;
+        animation: fadeIn 2.5s ease forwards;
+        opacity: 0;
+    }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+
+    .instructions-box h2 { 
+        margin-bottom: 15px; 
+        color: #ffdd59;
+        font-size: 1.8rem;
+    }
+    .instructions-box p { margin: 10px 0; line-height: 1.6; font-size: 1rem; }
+    .highlight { font-weight: 600; color: #ff6a88; }
+
+    /* Sidebar & Navigation */
+    .nav-btn {
+        position: fixed;
+        top: 25px;
+        left: 25px;
+        width: 55px;
+        height: 55px;
+        background: linear-gradient(135deg, #ff6a88, #ff2a40);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 2rem;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+        transition: transform 0.2s;
+    }
+    .nav-btn:hover { transform: scale(1.1); }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(15px);
+        box-shadow: 2px 0 20px rgba(0,0,0,0.7);
+        transition: 0.4s ease;
+        padding-top: 120px;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .sidebar.active { left: 0; }
+    .sidebar a {
+        display: block;
+        width: 85%;
+        margin: 15px 0;
+        padding: 14px 0;
+        font-size: 1.1rem;
+        text-align: center;
+        background: linear-gradient(135deg, #ff6a88, #ff2a40);
+        border: none;
+        border-radius: 15px;
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+    .sidebar a:hover { background: linear-gradient(135deg, #ff2a40, #ff6a88); transform: translateX(5px); }
+
+    /* Scrollbar */
+    .instructions-box::-webkit-scrollbar {
+        width: 8px;
+    }
+    .instructions-box::-webkit-scrollbar-thumb {
+        background: rgba(255,76,96,0.7);
+        border-radius: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .welcome { font-size: 1.8rem; padding: 15px 25px; margin-top: 60px; }
+        .instructions-box { height: 220px; padding: 20px; }
+        .sidebar { width: 220px; }
+        .sidebar a { width: 90%; font-size: 1rem; }
+        .nav-btn { width: 50px; height: 50px; font-size: 1.6rem; }
+    }
+</style>
+</head>
+<body>
+
+<!-- Background Canvas -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- Navigation Button -->
+<button class="nav-btn">&#9776;</button>
+
+<!-- Sidebar Navigation -->
+<div class="sidebar" id="sidebar">
+    <a href="insta.html">Insta Story Message</a>
+    <a href="message.html">My Message</a>
+    <a href="convertor.html">Converter</a>
+    <a href="reply.html">Your Reply</a>
+</div>
+
+<!-- Animated Welcome Message -->
+<div class="welcome">
+    Welcome Nishh, thanks for reading my story and visiting this webpage!
+</div>
+
+<!-- Instructions Box -->
+<div class="instructions-box">
+    <h2>Instructions:</h2>
+    <p>1. <span class="highlight">Open the navigation bar</span> using the icon above.</p>
+    <p>2. You will find 4 sections:</p>
+    <p>&nbsp;&nbsp;• The message I wrote on Insta</p>
+    <p>&nbsp;&nbsp;• My personal message for this webpage</p>
+    <p>&nbsp;&nbsp;• <span class="highlight">Converter</span>: Copy messages here to translate Morse code to English</p>
+    <p>&nbsp;&nbsp;• <span class="highlight">Reply</span>: Write your message here and send it directly to me in real-time</p>
+</div>
+
+<script>
+    // Sidebar toggle
+    const navBtn = document.querySelector('.nav-btn');
+    const sidebar = document.getElementById('sidebar');
+    navBtn.addEventListener('click', () => { sidebar.classList.toggle('active'); });
+
+    // Particle background
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initParticles();
+    });
+
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < 100; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2 + 1,
+                dx: (Math.random() - 0.5) * 1.2,
+                dy: (Math.random() - 0.5) * 1.2
+            });
+        }
+    }
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(255,255,255,0.7)";
+            ctx.fill();
+            p.x += p.dx;
+            p.y += p.dy;
+
+            if (p.x > canvas.width) p.x = 0;
+            if (p.x < 0) p.x = canvas.width;
+            if (p.y > canvas.height) p.y = 0;
+            if (p.y < 0) p.y = canvas.height;
+        }
+        requestAnimationFrame(drawParticles);
+    }
+
+    initParticles();
+    drawParticles();
+</script>
+
+</body>
+</html>

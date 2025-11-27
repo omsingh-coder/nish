@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Message Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+    body {
+        width: 100%;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        background-size: 400% 400%;
+        animation: gradientBG 20s ease infinite;
+        color: #fff;
+        padding: 60px 20px;
+        line-height: 1.8;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+        font-weight: 400;
+        text-align: center;
+        color: #ffdd59;
+        margin-bottom: 40px;
+    }
+
+    .highlight { color: #ff6a88; font-weight: 600; }
+
+    .message p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 50px 0;
+    }
+
+    .btn-container a {
+        text-decoration: none;
+        background: linear-gradient(135deg, #ff6a88, #ff2a40);
+        padding: 12px 30px;
+        border-radius: 20px;
+        color: #fff;
+        font-weight: 600;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    }
+
+    .btn-container a:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.1rem; margin-bottom: 30px; }
+        .btn-container { flex-direction: column; gap: 15px; }
+    }
+</style>
+</head>
+<body>
+
+<h1>MY MESSAGE</h1>
+<h2>welcome Nishh, <span class="highlight">tumko ise bhi convert karna padega</span></h2>
+
+<div class="message">
+    <p>Yeh tumhara message ka pehla sentence hai. Tum yahan apna full message likh sakte ho aur ye pura page scroll hoga.</p>
+    <p>Dusra paragraph yahan add karo, aur jitna bhi text hoga, pura scroll ke through dikhega.</p>
+    <p>Tumhare messages ke beech me formatting ya highlight bhi kar sakte ho.</p>
+    <p>Har paragraph automatically page ke flow me aayega, koi box ke andar nahi.</p>
+    <p>Aur yeh last paragraph tumhare message ka end ho sakta hai.</p>
+</div>
+
+<div class="btn-container">
+    <a href="index.html">Home</a>
+    <a href="convertor.html">Converter</a>
+</div>
+
+</body>
+</html>

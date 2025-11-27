@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morse Convert</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+body { 
+    min-height:100vh; 
+    color:#fff; 
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); 
+    background-size:400% 400%; 
+    animation: gradientBG 20s ease infinite; 
+    overflow-x:hidden; 
+    display:flex; 
+    flex-direction:column; 
+    align-items:center;
+    padding-bottom: 80px;
+}
+@keyframes gradientBG {
+    0% { background-position:0% 50%; }
+    50% { background-position:100% 50%; }
+    100% { background-position:0% 50%; }
+}
+
+/* Background canvas */
+canvas#bgCanvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; }
+
+/* Glowing Header */
+h1 { 
+    font-size:3rem; 
+    font-weight:700; 
+    margin-top:80px; 
+    text-align:center; 
+    z-index:1;
+    background: linear-gradient(to right, #ff6a88, #ffcc70);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+@keyframes glow {
+    0% { text-shadow: 0 0 5px #ff6a88, 0 0 10px #ffcc70; }
+    100% { text-shadow: 0 0 20px #ff6a88, 0 0 30px #ffcc70; }
+}
+
+/* Instructions Box */
+.instructions-box { 
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 40px;
+    max-width: 500px;
+    width: 90%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.instructions-box.expanded {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    padding: 40px;
+    z-index: 10;
+    background: rgba(0,0,0,0.95);
+    border-radius: 25px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
+
+/* Initially hide instructions content */
+.instructions-box .instructions-content {
+    display: none;
+}
+
+/* Show content when expanded */
+.instructions-box.expanded .instructions-content {
+    display: block;
+}
+
+.instructions-box h2 { 
+    color: #ffdd59; 
+    font-size: 1.8rem; 
+    margin-bottom: 15px; 
+}
+
+.instructions-box p { 
+    font-size: 1.1rem; 
+    line-height:1.6; 
+    margin:10px 0; 
+}
+
+.instructions-box .highlight { 
+    color: #ff6a88; 
+    font-weight:600; 
+}
+
+/* Morse Converter */
+.converter { 
+    margin-top:50px; 
+    width:90%; 
+    max-width:800px; 
+    display:flex; 
+    flex-direction:column; 
+    z-index:1;
+}
+.converter textarea {
+    width:100%; 
+    padding:20px; 
+    border-radius:15px; 
+    border:none; 
+    outline:none; 
+    font-size:1.1rem; 
+    resize:vertical; 
+    background: rgba(255,255,255,0.05); 
+    color:#fff; 
+    backdrop-filter: blur(12px);
+}
+.converter button {
+    margin-top:15px;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    background: linear-gradient(135deg,#ff6a88,#ff2a40);
+    color:#fff;
+    font-size:1.2rem;
+    cursor:pointer;
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+    transition:0.3s;
+}
+.converter button:hover { transform: scale(1.05); }
+
+/* Converted Output */
+.output { 
+    margin-top:30px; 
+    font-size:1.2rem; 
+    line-height:1.6; 
+    width:90%; 
+    max-width:800px; 
+    word-wrap:break-word; 
+}
+.output .highlight { color:#ffcc70; font-weight:700; }
+
+/* Bottom Buttons */
+.bottom-buttons { 
+    margin-top:50px; 
+    display:flex; 
+    gap:20px; 
+    z-index:1;
+}
+.bottom-buttons a {
+    padding:15px 30px; 
+    border-radius:15px; 
+    background: linear-gradient(135deg,#ff6a88,#ff2a40);
+    color:#fff; 
+    font-weight:600; 
+    text-decoration:none;
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+    transition:0.3s;
+}
+.bottom-buttons a:hover { transform: scale(1.05); }
+
+/* Scrollbars */
+.instructions-box::-webkit-scrollbar, .output::-webkit-scrollbar { width:8px; }
+.instructions-box::-webkit-scrollbar-thumb, .output::-webkit-scrollbar-thumb { background: rgba(255,76,96,0.7); border-radius:10px; }
+
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<h1><span>Morse</span> <span>Converter</span></h1>
+
+<!-- Instructions Box -->
+<div class="instructions-box" id="instructions">
+    <h2>Instructions</h2>
+    <div class="instructions-content">
+        <p><span class="highlight">Nishh</span>, tum is page se Morse ko English me convert kar skti ho aur padh skti ho.</p>
+        <p>Morse ko English me convert karne ke liye tumne jo bhi Message copy kiya hai, usko yaha paste kro aur convert kr do. Ye page tumhare Morse code ko English me convert kar dega.</p>
+    </div>
+</div>
+
+<!-- Morse Converter -->
+<div class="converter">
+    <textarea id="morseInput" placeholder="Nishh Morse paste kro"></textarea>
+    <button id="convertBtn">Convert</button>
+    <div class="output" id="output"></div>
+</div>
+
+<!-- Bottom Buttons -->
+<div class="bottom-buttons">
+    <a href="index.html">Home</a>
+    <a href="reply.html">Reply</a>
+</div>
+
+<script>
+/* Particle Background */
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initParticles();
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function initParticles() {
+    particles = [];
+    for(let i=0;i<100;i++){
+        particles.push({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*2+1, dx:(Math.random()-0.5)*1.2, dy:(Math.random()-0.5)*1.2 });
+    }
+}
+
+function drawParticles() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let p of particles){
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle="rgba(255,255,255,0.7)";
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        if(p.x>canvas.width)p.x=0;
+        if(p.x<0)p.x=canvas.width;
+        if(p.y>canvas.height)p.y=0;
+        if(p.y<0)p.y=canvas.height;
+    }
+    requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* Instructions Box Toggle */
+const instructions = document.getElementById('instructions');
+instructions.addEventListener('click', () => { instructions.classList.toggle('expanded'); });
+
+/* Morse Dictionary */const morseDict = {
+    ".-":"A","-...":"B","-.-.":"C","-..":"D",".":"E","..-.":"F","--.":"G","....":"H","..":"I",
+    ".---":"J","-.-":"K",".-..":"L","--":"M","-.":"N","---":"O",".--.":"P","--.-":"Q",".-.":"R",
+    "...":"S","-":"T","..-":"U","...-":"V",".--":"W","-..-":"X","-.--":"Y","--..":"Z",
+    "-----":"0",".----":"1","..---":"2","...--":"3","....-":"4",".....":"5","-....":"6","--...":"7",
+    "---..":"8","----.":"9","/":" ",
+    ".-.-.-":".",     // period
+    "--..--":",",     // comma
+    "..--..":"?",     // question mark
+    ".----.":"'",     // apostrophe
+    "-.-.--":"!",     // exclamation
+    "-..-.":"/",      // slash
+    "-.--.":"(",      // left parenthesis
+    "-.--.-":")",     // right parenthesis
+    ".-...":"&",      // &
+    "---...":":",     // colon
+    "-.-.-.":";",     // semicolon
+    "-...-":"=",      // equals
+    ".-.-.":"+",
+    "-....-":"-",     // hyphen
+    "..--.-":"_",     // underscore
+    ".-..-.":"\""     // quotation mark
+};
+
+
+/* Words to highlight */
+const highlightWords = ["Nishh","name","Nivedita","Kiran","Ji","Insta Id","Om","Singh","singh","Rajput","rajput"];
+
+/* Convert Morse Button */
+document.getElementById('convertBtn').addEventListener('click', () => {
+    let input = document.getElementById('morseInput').value.trim();
+    let words = input.split(' ');
+    let output = words.map(w => morseDict[w] || w).join('');
+    highlightWords.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        output = output.replace(regex, `<span class="highlight">${word}</span>`);
+    });
+    document.getElementById('output').innerHTML = output;
+    window.scrollTo({top:document.getElementById('output').offsetTop-50, behavior:'smooth'});
+});
+</script>
+
+</body>
+</html>

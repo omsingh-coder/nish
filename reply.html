@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reply</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        font-family: Arial, sans-serif;
+        position: relative;
+        color: #fff;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        background-size: 400% 400%;
+        animation: gradientBG 20s ease infinite;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    canvas#bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    h1 {
+        position: relative;
+        z-index: 1;
+        font-family: 'Dancing Script', cursive;
+        font-size: 60px;
+        color: #ff4c4c;
+        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff6347;
+        margin-top: 60px;
+        text-align: center;
+    }
+
+    .instructions-box {
+        position: relative;
+        z-index: 1;
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(15px);
+        padding: 25px;
+        border-radius: 25px;
+        margin: 30px auto;
+        max-width: 800px;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        transition: transform 0.3s ease;
+    }
+
+    .instructions-box:hover { transform: scale(1.05); }
+
+    .popup {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.9);
+        color: #fff;
+        padding: 50px;
+        overflow-y: auto;
+        font-size: 20px;
+        line-height: 1.6;
+        z-index: 10;
+    }
+
+    .close-popup {
+        position: absolute;
+        top: 20px; right: 30px;
+        font-size: 30px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    form {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        max-width: 500px;
+        margin: auto;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        border: none;
+        font-size: 18px;
+        resize: none;
+    }
+
+    button {
+        padding: 15px 20px;
+        border: none;
+        border-radius: 10px;
+        background-color: #ff4c4c;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover { background-color: #ff0000; }
+
+    .thankyou {
+        display: none;
+        margin-top: 20px;
+        font-size: 22px;
+        color: #00ff7f;
+        font-weight: bold;
+    }
+
+    .footer {
+        margin-top: 40px;
+        font-family: 'Dancing Script', cursive;
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .home-btn {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<h1>Reply</h1>
+
+<div class="instructions-box" onclick="showPopup()">Instructions</div>
+
+<div class="popup" id="popup">
+    <span class="close-popup" onclick="closePopup()">×</span>
+    <p>
+        Nishh, this is the final part of this webpage. You’ve probably read everything I wrote and tried to understand it. 
+        I sincerely hope you will share this webpage and my request with Nivedita ji. 
+        You might find this all very strange, and many questions may have crossed your mind: 
+        why am I doing this? How did I get your Instagram ID? 
+        I will explain all this on Instagram if you message me there. 
+        Thank you for reading my webpage. 
+        This webpage is designed so that any reply you send here will directly reach me via notification. 
+        Please reply so I know that you’ve accepted my request. Thanks!
+    </p>
+</div>
+
+<form id="replyForm">
+    <textarea name="message" id="message" rows="4" placeholder="Nishh please give your reply" required></textarea>
+    <button type="submit">Send Reply</button>
+</form>
+
+<div class="thankyou" id="thankyou">Thank you for your reply!</div>
+
+<div class="footer">
+    I hope you will accept my request
+</div>
+<a class="home-btn" href="index.html">Home</a>
+
+<script>
+    // Popup functions
+    function showPopup() { document.getElementById('popup').style.display = 'block'; }
+    function closePopup() { document.getElementById('popup').style.display = 'none'; }
+
+    // Submit form
+    const form = document.getElementById('replyForm');
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const message = document.getElementById('message').value;
+        const response = await fetch('/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+        });
+        if (response.ok) {
+            document.getElementById('thankyou').style.display = 'block';
+            form.reset();
+        } else { alert('Error sending your reply. Please try again.'); }
+    });
+
+    // Particle background
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < 100; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2 + 1,
+                dx: (Math.random() - 0.5) * 1.2,
+                dy: (Math.random() - 0.5) * 1.2
+            });
+        }
+    }
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(255,255,255,0.7)";
+            ctx.fill();
+            p.x += p.dx;
+            p.y += p.dy;
+
+            if (p.x > canvas.width) p.x = 0;
+            if (p.x < 0) p.x = canvas.width;
+            if (p.y > canvas.height) p.y = 0;
+            if (p.y < 0) p.y = canvas.height;
+        }
+        requestAnimationFrame(drawParticles);
+    }
+
+    initParticles();
+    drawParticles();
+</script>
+
+</body>
+</html>
