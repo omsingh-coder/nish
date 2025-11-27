@@ -13,10 +13,24 @@ my_phone = os.environ.get("MY_PHONE")
 client = Client(account_sid, auth_token)
 REPLY_FILE = "replies.txt"
 
+# Routes for each HTML page
 @app.route('/')
-def home():
-    return send_file("reply.html")
+def index():
+    return send_file("index.html")       # main page
 
+@app.route('/insta')
+def insta():
+    return send_file("insta.html")       # linked page from index.html
+
+@app.route('/message')
+def message():
+    return send_file("message.html")     # linked page from index.html
+
+@app.route('/reply')
+def reply():
+    return send_file("reply.html")       # reply page
+
+# Route to handle sending SMS via Twilio
 @app.route('/send', methods=['POST'])
 def send_reply():
     data = request.json
@@ -35,7 +49,7 @@ def send_reply():
     except Exception as e:
         return {"error": str(e)}, 500
 
-    # Save reply locally
+    # Save reply locally (Railway will create replies.txt automatically)
     with open(REPLY_FILE, "a") as f:
         f.write(message_text + "\n")
 
