@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, send_file
 from twilio.rest import Client
 
-app = Flask(name)
+app = Flask(__name__)
 
 # Twilio credentials from Railway environment variables
 account_sid = os.environ.get("AC2d1ff15cbc93ae35758549ea64c9a146")
@@ -41,6 +41,6 @@ def send_reply():
 
     return {"success": True}, 200
 
-if name == "main":
+if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
